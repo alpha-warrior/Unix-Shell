@@ -4,8 +4,16 @@ int main(int argc, char * argv[])
 {
     long long int i,j,k,pid;
     int status;
-    char add_curd[10000],add_root[10000];
+    char add_curd[10000],add_root[10000],cmd[100];
 
+    struct pid_datapoint pid_data[1000];
+
+    for(i=0;i<1000;i++)
+    {
+        pid_data[i].id=-1;
+    }
+    
+    // pid_data[2].id = 21;
     getcwd(add_curd,10000);
     // printf("%s\n",add_curd);
     // printf("%ld",strlen(add_curd));
@@ -33,13 +41,22 @@ int main(int argc, char * argv[])
             {
                 if (WIFEXITED(status))
                 {	
-                    printf("pid: %lld exited normally\n",pid);	
+                    for(j=0;j<1000;j++)
+                    {
+                        if(pid_data[j].id==pid)
+                        {
+                            strcpy(cmd,pid_data[j].cmd);
+                            pid_data[j].id=-1;
+                            break;
+                        }
+                    }
+                    printf("%s with pid %lld exited normally\n",cmd,pid);	
                 }
                                     
             }
 
         signal(SIGINT, SIG_IGN);
         display(add_root);
-        input(add_root);
+        input(add_root,pid_data);
     }
 }

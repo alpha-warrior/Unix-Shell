@@ -12,6 +12,11 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+struct pid_datapoint
+{
+    int id;
+    char cmd[100];
+};
 
 extern void pinfo();
 extern void display();

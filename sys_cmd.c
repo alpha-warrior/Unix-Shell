@@ -1,11 +1,12 @@
 #include "headers.h"
 
-void sys_cmd(char * input_str)
+void sys_cmd(char * input_str,struct pid_datapoint pid_data[])
 {
     long long int i,j,k,cnt,flag_and=0,child_pid,exe_stat;
     int status;
     char * command[1000];
     char * arg_list[1000];
+
 
     for(i=0;i<1000;i++)
     {
@@ -60,7 +61,16 @@ void sys_cmd(char * input_str)
         }
         else
         {
-            printf("%s process with pid : %lld started\n",arg_list[0],child_pid);
+            printf("%s with process pid %lld started\n",arg_list[0],child_pid);
+            for(j=0;j<1000;j++)
+            {
+                if(pid_data[j].id==-1)
+                {
+                    pid_data[j].id = child_pid;
+                    strcpy(pid_data[j].cmd,arg_list[0]);
+                    break;
+                }
+            }
         }
     }
 }
