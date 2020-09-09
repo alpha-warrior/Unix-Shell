@@ -26,10 +26,12 @@ int main(int argc, char * argv[])
     getcwd(add_root,10000);
     // printf("%s",add_root);
 
+    fetch_history();
     chdir(add_curd);
     for(;;)
     {
         signal(SIGINT, SIG_IGN);
+        // printf("WORKING SHELL");
         display(add_root);
         input(add_root);
     }

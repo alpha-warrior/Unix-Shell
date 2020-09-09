@@ -1,6 +1,7 @@
 #include "headers.h"
 void input(char *add_root)
 {
+    // printf("WORKING INPUUT");
     long long int i,j,k,t,cnt_token,len;
     char *input_str, tokens[100][10000],trimmed_str[10000],command[10000];
 
@@ -8,12 +9,13 @@ void input(char *add_root)
     size_t size = 10000;
 
     getline(&input_str,&size,stdin);
-    // printf("%s", input_str); 
+    // printf("WOKINg getline %s", input_str); 
+    add_history(input_str);
+    // printf("add_history");
     char * token = strtok(input_str, ";");
     cnt_token=0;
     while(token!=NULL)
     {
-
         for(j=strlen(token)-1;j>=0;j--)
         {
             if(token[j]!='\n'  && token[j]!=' ')
@@ -59,7 +61,7 @@ void input(char *add_root)
             command[i]=tokens[t][i];
         }
         command[i]='\0';
-        // printf("%s",command);
+        // printf("WORKING COMMAND%s",command);
         if(strcmp(command,"echo")==0)
         {
             echo(tokens[t]);
@@ -82,7 +84,12 @@ void input(char *add_root)
         }
         else if(strcmp(command,"quit")==0 || strcmp(command,"q")==0 || strcmp(command,"exit")==0)
         {
+            save_history();
             exit(1);
+        }
+        else if(strcmp(command,"history")==0)
+        {
+            history(tokens[t]);
         }
         else
         {

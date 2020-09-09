@@ -18,6 +18,8 @@ struct pid_datapoint
     char cmd[100];
 };
 
+char history_data[20][1000];
+int hist_len;
 extern void pinfo();
 extern void display();
 extern void input();
@@ -26,3 +28,7 @@ extern void cd();
 extern void pwd();
 extern void ls();
 extern void sys_cmd();
+extern void add_history();
+extern void history();
+extern void fetch_history();
+extern void save_history();
