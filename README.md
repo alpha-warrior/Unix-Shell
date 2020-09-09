@@ -16,10 +16,10 @@
 * history.c - functions to implement the history command
 
 ### Fuctioning
-* cd <path to new directory> - Changes directory to the given path. Changes to shell home if no directory is provided
+* cd < path to new directory > - Changes directory to the given path. Changes to shell home if no directory is provided
 * pwd - Shows the absolute path of the current working directory 
-* echo <message> - Prints the <message> to the terminal
-* ls -[al] <path to directory1> <path to directory2> - lists all files of the given directory(s) with respcet to mentioned flags
+* echo < message > - Prints the <message> to the terminal
+* ls -[al] < path to directory1 > < path to directory2 > - lists all files of the given directory(s) with respcet to mentioned flags
 * pinfo [pid] - Prints process related info (pid, Process Status {R, S, S+, Z}, memory and Executable Path) about given pid. Prints process related info of shell program if no pid is provided.
 * history [n]  - Prints history of n (max 20) commands. Default n = 10.
 * Any process can be moved to Background by adding '&' in the command.
