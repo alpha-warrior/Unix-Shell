@@ -1,5 +1,5 @@
 #include "headers.h"
-void input(char *add_root,struct pid_datapoint pid_data[])
+void input(char *add_root)
 {
     long long int i,j,k,t,cnt_token,len;
     char *input_str, tokens[100][10000],trimmed_str[10000],command[10000];
@@ -86,7 +86,7 @@ void input(char *add_root,struct pid_datapoint pid_data[])
         }
         else
         {
-            sys_cmd(tokens[t],pid_data);
+            sys_cmd(tokens[t]);
         }
     }
 }

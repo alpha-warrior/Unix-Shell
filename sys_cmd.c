@@ -1,11 +1,12 @@
 #include "headers.h"
 
-void sys_cmd(char * input_str,struct pid_datapoint pid_data[])
+void sys_cmd(char * input_str)
 {
-    long long int i,j,k,cnt,flag_and=0,child_pid,exe_stat;
+    long long int i,j,k,cnt,flag_and=0,child_pid,exe_stat,child_child_pid,pid;
     int status;
     char * command[1000];
     char * arg_list[1000];
+    char cmd[1000];
 
 
     for(i=0;i<1000;i++)
@@ -45,12 +46,44 @@ void sys_cmd(char * input_str,struct pid_datapoint pid_data[])
     
     if(child_pid==0)
     {
-        exe_stat = execvp(arg_list[0],arg_list);
-        if(exe_stat==-1)
+        if(flag_and==0)
         {
-            printf("Please enter a Valid Command\n");
+            exe_stat = execvp(arg_list[0],arg_list);
+            if(exe_stat==-1)
+            {
+                printf("Please enter a Valid Command\n");
+            }
+            exit(0);
         }
-        exit(0);
+        else
+        {
+            child_child_pid = fork();
+            if(child_child_pid==0)
+            {
+                exe_stat = execvp(arg_list[0],arg_list);
+                if(exe_stat==-1)
+                {
+                    printf("Please enter a Valid Command\n");
+                }
+                exit(0);      
+            }
+            else
+            {
+                for(;;)
+                {
+                    pid = waitpid(-1, &status, WNOHANG | WUNTRACED);
+                    if(pid > 0)
+                    {
+                        if (WIFEXITED(status))
+                        {	
+
+                            printf("\n%s with pid %lld exited normally\n",arg_list[0],pid);	
+                        }
+                                            
+                    }
+                }
+            }
+        }
     }
     
     if(child_pid>0)
@@ -62,15 +95,6 @@ void sys_cmd(char * input_str,struct pid_datapoint pid_data[])
         else
         {
             printf("%s with process pid %lld started\n",arg_list[0],child_pid);
-            for(j=0;j<1000;j++)
-            {
-                if(pid_data[j].id==-1)
-                {
-                    pid_data[j].id = child_pid;
-                    strcpy(pid_data[j].cmd,arg_list[0]);
-                    break;
-                }
-            }
         }
     }
 }
