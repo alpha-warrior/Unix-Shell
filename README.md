@@ -1,6 +1,4 @@
- ### UNIX - SHELL
- **Akshit Garg**
- **2018113006**
+ # UNIX - SHELL
 
 ### Files
 * headers.h     - contains all the required headers and functions
