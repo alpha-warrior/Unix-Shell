@@ -1,20 +1,20 @@
+cat < pwd.c
+cat pwd.c
+cat < pwd.c
+cat < pwd.c
+cat > pwd.c
 q
-ls
-history 
-ls
-ls .. . ../..
-cd ..
-cd bonus
-ls
-echo 1234;
-pwd
-ls -la
-ls
-history
-history 20
-emacs &
-ls
-ls
-history
-history 20
+cat < pwd.c
+q
+q
+quit
 exit
+emacs &
+emacs &
+jobs
+fg 1
+ls
+l
+sl
+slslq
+q

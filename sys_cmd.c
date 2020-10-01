@@ -3,10 +3,11 @@
 void sys_cmd(char * input_str)
 {
     long long int i,j,k,cnt,flag_and=0,child_pid,exe_stat,child_child_pid,pid;
-    int status;
+    // int status;
     char * command[1000];
     char * arg_list[1000];
     char cmd[1000];
+
 
 
     for(i=0;i<1000;i++)
@@ -46,55 +47,34 @@ void sys_cmd(char * input_str)
     
     if(child_pid==0)
     {
-        if(flag_and==0)
+        exe_stat = execvp(arg_list[0],arg_list);
+        if(exe_stat==-1)
         {
-            exe_stat = execvp(arg_list[0],arg_list);
-            if(exe_stat==-1)
-            {
-                printf("Please enter a Valid Command\n");
-            }
-            exit(0);
+            printf("Please enter a Valid Command\n");
         }
-        else
-        {
-            child_child_pid = fork();
-            if(child_child_pid==0)
-            {
-                exe_stat = execvp(arg_list[0],arg_list);
-                if(exe_stat==-1)
-                {
-                    printf("Please enter a Valid Command\n");
-                }
-                exit(0);      
-            }
-            else
-            {
-                for(;;)
-                {
-                    pid = waitpid(-1, &status, WNOHANG | WUNTRACED);
-                    if(pid > 0)
-                    {
-                        if (WIFEXITED(status))
-                        {	
-
-                            printf("\n%s with pid %lld exited normally\n",arg_list[0],pid);	
-                        }
-                                            
-                    }
-                }
-            }
-        }
+        exit(0);
     }
     
     if(child_pid>0)
     {
         if(flag_and==0)
         {
+            int status;
+            foreground_job.pid = child_pid;
+            strcpy(foreground_job.command,arg_list[0]);
+            foreground_job.id = 0;
             waitpid(child_pid,&status, WUNTRACED);
+            foreground_job.pid = -1;
         }
         else
         {
             printf("%s with process pid %lld started\n",arg_list[0],child_pid);
+            jobs[job_seq_no].pid = child_pid;
+            strcpy(jobs[job_seq_no].command,arg_list[0]);
+            jobs[job_seq_no].status = 1;
+            jobs[job_seq_no].id = job_seq_no;
+            job_seq_no++;
+            job_seq_no%=1000;
         }
     }
 }

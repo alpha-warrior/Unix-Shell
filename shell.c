@@ -28,11 +28,17 @@ int main(int argc, char * argv[])
 
     fetch_history();
     chdir(add_curd);
+    strcpy(lwd,add_root);
     for(;;)
     {
-        signal(SIGINT, SIG_IGN);
+        signal(SIGCHLD, child_killed);
         // printf("WORKING SHELL");
         display(add_root);
+        signal(SIGINT, signal_control);
+        signal(SIGTSTP, signal_control);
         input(add_root);
+
+        // check_job_stat();
+
     }
 }

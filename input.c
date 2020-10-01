@@ -1,15 +1,20 @@
 #include "headers.h"
 void input(char *add_root)
 {
-    // printf("WORKING INPUUT");
+    // printf("WORKING INPUUT %d",job_seq_no);
     long long int i,j,k,t,cnt_token,len;
     char *input_str, tokens[100][10000],trimmed_str[10000],command[10000];
 
     input_str = (char*)malloc(sizeof(char)*10000);
     size_t size = 10000;
 
-    getline(&input_str,&size,stdin);
+    // getline(&input_str,&size,stdin);
     // printf("WOKINg getline %s", input_str); 
+    if(fgets(input_str,10000,stdin)==NULL)
+    {
+        printf("\n");
+        exit(0);
+    }
     add_history(input_str);
     // printf("add_history");
     char * token = strtok(input_str, ";");
@@ -55,45 +60,6 @@ void input(char *add_root)
 
     for(t=0;t<cnt_token;t++)
     {
-        len=strlen(tokens[t]);
-        for(i=0;tokens[t][i]!=' ' && i < len ;i++)
-        {
-            command[i]=tokens[t][i];
-        }
-        command[i]='\0';
-        // printf("WORKING COMMAND%s",command);
-        if(strcmp(command,"echo")==0)
-        {
-            echo(tokens[t]);
-        }
-        else if(strcmp(command,"cd")==0)
-        {
-            cd(tokens[t],add_root);
-        }
-        else if(strcmp(command,"pwd")==0)
-        {
-            pwd();
-        }
-        else if(strcmp(command,"ls")==0)
-        {
-            ls(tokens[t],add_root);
-        }
-        else if(strcmp(command,"pinfo")==0)
-        {
-            pinfo(tokens[t],add_root);
-        }
-        else if(strcmp(command,"quit")==0 || strcmp(command,"q")==0 || strcmp(command,"exit")==0)
-        {
-            save_history();
-            exit(1);
-        }
-        else if(strcmp(command,"history")==0)
-        {
-            history(tokens[t]);
-        }
-        else
-        {
-            sys_cmd(tokens[t]);
-        }
+        piping(tokens[t],add_root);
     }
 }
